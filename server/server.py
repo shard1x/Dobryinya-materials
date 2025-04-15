@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, abort
 import psycopg2
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="")
 
 
 class User:
