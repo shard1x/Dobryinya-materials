@@ -40,6 +40,19 @@
             <h2>Добро пожаловать на сайт строительного магазина Добрыня!</h2>
             <p>У нас самые качественные стройматериалы, надёжные инструменты, низкие цены и быстрая доставка!.</p>
         </section>
+
+        <!-- Секция с карточками товаров -->
+        <section class="product-cards">
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>Цена: {{ product.price }} руб.</p>
+                    <p>{{ product.description }}</p>
+                </div>
+            {% endfor %}
+        </section>
+
     </main>
 
     <script src="js/main.js"></script>

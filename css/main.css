@@ -96,3 +96,30 @@ main h2 {
     text-align: center;
     margin-bottom: 20px;
 }
+
+/* Стили для карточек товаров */
+.product-cards {
+   display: flex; /* Используем flexbox для расположения карточек в ряд */
+   flex-wrap: wrap; /* Позволяем переносить карточки на новую строку при необходимости */
+   justify-content: center; /* Центрируем карточки по горизонтали */
+}
+
+.product-card {
+   background-color: #FFE4C4; /* Цвет фона карточки */
+   border-radius: 10px; /* Закругленные углы */
+   box-shadow: 0 2px 5px rgba(0, 0, 0, .2); /* Тень под карточкой */
+   margin: 15px; /* Отступы между карточками */
+   padding-bottom :10px; /* Отступ снизу внутри карточки */
+   width :200px; /* Ширина карточки */
+}
+
+.product-card img {
+   width :100%; /* Картинка занимает всю ширину карточки */
+   border-top-left-radius :10px; /* Закругление верхнего левого угла картинки */
+   border-top-right-radius :10px; /* Закругление верхнего правого угла картинки */
+}
+
+.product-card h3,
+.product-card p {
+   text-align :center; /* Центрируем текст внутри карточки */
+}

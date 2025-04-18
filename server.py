@@ -67,11 +67,30 @@ def home():
         print(f"Полученный результат: {user_data}")  # Отладочная печать
         avatar_url = user_data[0] if user_data else 'uploads/default_avatar.png'
         conn.close()
+
+        # Пример списка товаров
+        products = [
+            {'name': 'Газонокосилка', 'price': '189000','description': 'Газонокосилка аккумуляторная самоходная Greenworks GC82LM51SP2 82 В - это мощная и практичная самоходная газонокосилка с приводом на задние колеса.','image': 'templates/product_grasschopper.png'},
+            {'name': 'Окно ПВХ', 'price': '5100','description': 'Фрамуга - это горизонтальная верхняя створка окна, монтируемая для безопасного проветривания помещения.','image': 'templates/product_window.png'},
+            {'name': 'Брус', 'price': '4490','description': 'При склейке используется водостойкий клей D4, что позволяет использование этого бруса в наружных работах.','image': 'templates/product_brus.png'},
+            # Добавьте больше товаров по необходимости
+        ]
+
+        return render_template('main.html', avatar_url=avatar_url, products=products)
+
     else:
         session['logged_in'] = False
         avatar_url = 'uploads/default_avatar.png'
 
-    return render_template('main.html', avatar_url=avatar_url)
+        # Пример списка товаров
+
+        products = [
+            {'name': 'Газонокосилка', 'price': '189000', 'description': 'Газонокосилка аккумуляторная самоходная Greenworks GC82LM51SP2 82 В - это мощная и практичная самоходная газонокосилка с приводом на задние колеса.', 'image': 'templates/product_grasschopper.png'},
+            {'name': 'Окно ПВХ', 'price': '5100','description': 'Фрамуга - это горизонтальная верхняя створка окна, монтируемая для безопасного проветривания помещения.','image': 'templates/product_window.png'},
+            {'name': 'Брус', 'price': '4490','description': 'При склейке используется водостойкий клей D4, что позволяет использование этого бруса в наружных работах.','image': 'templates/product_brus.png'},
+            # Добавьте больше товаров по необходимости
+        ]
+        return render_template('main.html', avatar_url=avatar_url, products=products)
 
 
 @app.route('/user/create', methods=['POST'])
