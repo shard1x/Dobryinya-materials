@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Добрыня</title>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        .product-cards {
+            display: flex;
+            flex-wrap: wrap; /* Позволяет карточкам переноситься на следующую строку */
+            justify-content: flex-start; /* Выравнивание карточек по левому краю */
+        }
+
+        .product-card {
+            flex: 0 1 calc(33.33% - 20px); /* Каждая карточка занимает треть ширины контейнера с учетом отступов */
+            margin: 10px; /* Отступы вокруг каждой карточки */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Добавляет тень к карточкам */
+            padding: 10px; /* Внутренние отступы для карточек */
+            border-radius: 5px; /* Закругленные углы */
+        }
+
+        .product-card img {
+            max-width: 100%; /* Ограничивает ширину изображения до ширины карточки */
+            height: auto; /* Сохраняет пропорции изображения */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -28,6 +48,7 @@
                 <li><a href="/reg">Зарегистрироваться</a></li>
                 <li><a href="/login">Войти</a></li>
             {% else %}
+                <li><a href="/cart">Корзина</a></li> <!-- Кнопка "Корзина" -->
                 <li><a href="/logout">Выход</a></li>
             {% endif %}
             <li><a href="/">Главная</a></li>
@@ -43,18 +64,25 @@
 
         <!-- Секция с карточками товаров -->
         <section class="product-cards">
-            {% for product in products %}
-                <div class="product-card">
-                    <img src="{{ product.image }}" alt="{{ product.name }}">
-                    <h3>{{ product.name }}</h3>
-                    <p>Цена: {{ product.price }} руб.</p>
-                    <p>{{ product.description }}</p>
-                </div>
-            {% endfor %}
+        {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.image }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>Цена: {{ product.price }} руб.</p>
+                <p>{{ product.description }}</p>
+                {% if session.get('logged_in') %}
+                    <button onclick="addToCart({{ product.product_id }})">Добавить в корзину</button>
+                {% endif %}
+            </div>
+        {% endfor %}
         </section>
 
     </main>
 
+    <!-- Скрипты -->
     <script src="js/main.js"></script>
+    <script src="js/addToCart.js"></script>
+
+
 </body>
 </html>

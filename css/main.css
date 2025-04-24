@@ -85,41 +85,64 @@ h1 {
 /* Основная секция */
 main section {
     max-width: 800px;
-    margin: 30px auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  	margin-top :30px;
+  	margin-left:auto;
+  	margin-right:auto;
+  	padding :20px;
+  	background-color:white;
+  	border-radius :10px;
+  	box-shadow :0 2px 5px rgba(0,0,0,.1);
 }
 
 main h2 {
-    text-align: center;
-    margin-bottom: 20px;
+	text-align:center;
+	margin-bottom :20px;
 }
 
 /* Стили для карточек товаров */
 .product-cards {
-   display: flex; /* Используем flexbox для расположения карточек в ряд */
-   flex-wrap: wrap; /* Позволяем переносить карточки на новую строку при необходимости */
-   justify-content: center; /* Центрируем карточки по горизонтали */
+	display:flex;
+	flex-wrap :wrap;
+	justify-content :space-between; /* Распределяем пространство между карточками */
 }
 
 .product-card {
-   background-color: #FFE4C4; /* Цвет фона карточки */
-   border-radius: 10px; /* Закругленные углы */
-   box-shadow: 0 2px 5px rgba(0, 0, 0, .2); /* Тень под карточкой */
-   margin: 15px; /* Отступы между карточками */
-   padding-bottom :10px; /* Отступ снизу внутри карточки */
-   width :200px; /* Ширина карточки */
+	background-color:#FFE4C4; /* Цвет фона карточки */
+	border-radius :10px; /* Закругленные углы */
+	box-shadow :0 2px 5px rgba(0,0,0,.2); /* Тень под карточкой */
+	margin :15px; /* Отступы между карточками */
+	padding :10px; /* Отступы внутри карточки */
+	width :calc(33.33% - 30px); /* Ширина карточки с учетом отступов */
+	display:flex; /* Используем flexbox для расположения элементов */
+	flex-direction :column; /* Вертикальное расположение элементов */
+	justify-content :space-between; /* Распределяем пространство между элементами */
+	box-sizing:border-box; /* Учитываем отступы в ширине карточки */
 }
 
 .product-card img {
-   width :100%; /* Картинка занимает всю ширину карточки */
-   border-top-left-radius :10px; /* Закругление верхнего левого угла картинки */
-   border-top-right-radius :10px; /* Закругление верхнего правого угла картинки */
+	width :100%; /* Картинка занимает всю ширину карточки */
+	border-top-left-radius :10px; /* Закругление верхнего левого угла картинки */
+	border-top-right-radius :10px; /* Закругление верхнего правого угла картинки */
 }
 
 .product-card h3,
 .product-card p {
-   text-align :center; /* Центрируем текст внутри карточки */
+	text-align:center; /* Центрируем текст внутри карточки */
+}
+
+.product-card button {
+	background-color :transparent; /* Прозрачный фон для кнопки */
+	color :#4CAF50; /* Цвет текста кнопки */
+	border :2px solid #4CAF50; /* Обводка кнопки */
+	border-radius :5px; /* Закругление углов кнопки */
+	padding :10px 15px; /* Отступы внутри кнопки */
+	text-align:center;/* Центрируем текст внутри кнопки*/
+	text-decoration:none ;/* Без подчеркивания текста*/
+	margin-top:auto ;/* Отодвигаем кнопку вниз в карточке*/
+	cursor:pointer ;/* Указатель при наведении на кнопку*/
+}
+
+.product-card button:hover {
+	background-color:#4CAF50 ;/* Зеленый фон при наведении на кнопку*/
+	color:white ;/* Белый текст при наведении на кнопку*/
 }

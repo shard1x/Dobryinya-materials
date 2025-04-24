@@ -1,5 +1,5 @@
 import hashlib
-from flask import Flask, render_template, request, redirect, url_for, abort, session, flash
+from flask import Flask, render_template, request, redirect, url_for, abort, session, flash, jsonify
 from flask_session import Session
 import psycopg2
 from werkzeug.utils import secure_filename
@@ -56,41 +56,54 @@ def success():
 
 
 @app.route('/')
-def home():
+def home(products=None):
     if 'user_id' in session:
         session['logged_in'] = True
         conn = get_db_connection()
         cur = conn.cursor()
+
+        # Получаем URL аватара пользователя
         print(f"Запрашиваемый ID: {session['user_id']}")  # Отладочная печать
         cur.execute('SELECT avatar_url FROM users WHERE user_id=%s', (session['user_id'],))
         user_data = cur.fetchone()
         print(f"Полученный результат: {user_data}")  # Отладочная печать
         avatar_url = user_data[0] if user_data else 'uploads/default_avatar.png'
+
+        # Получаем данные о продуктах
+        cur.execute('SELECT product_name, price, description, image, product_id FROM products')
+        products = cur.fetchall()  # Получаем все продукты
+
+        # Закрываем соединение с базой данных
         conn.close()
 
-        # Пример списка товаров
-        products = [
-            {'name': 'Газонокосилка', 'price': '189000','description': 'Газонокосилка аккумуляторная самоходная Greenworks GC82LM51SP2 82 В - это мощная и практичная самоходная газонокосилка с приводом на задние колеса.','image': 'templates/product_grasschopper.png'},
-            {'name': 'Окно ПВХ', 'price': '5100','description': 'Фрамуга - это горизонтальная верхняя створка окна, монтируемая для безопасного проветривания помещения.','image': 'templates/product_window.png'},
-            {'name': 'Брус', 'price': '4490','description': 'При склейке используется водостойкий клей D4, что позволяет использование этого бруса в наружных работах.','image': 'templates/product_brus.png'},
-            # Добавьте больше товаров по необходимости
-        ]
+        # Преобразуем данные о продуктах в словарь для удобства
+        products_list = []
+        for product in products:
+            products_list.append({
+                'name': product[0],
+                'price': product[1],
+                'description': product[2],
+                'image': product[3],
+                'product_id': product[4]
+            })
 
-        return render_template('main.html', avatar_url=avatar_url, products=products)
+        return render_template('main.html', avatar_url=avatar_url, products=products_list)
 
     else:
         session['logged_in'] = False
         avatar_url = 'uploads/default_avatar.png'
 
-        # Пример списка товаров
+        # Если пользователь не залогинен, можно вернуть пустой список продуктов или другие данные
+        products_list = []
+        for product in products:
+            products_list.append({
+                'name': product[0],
+                'price': product[1],
+                'description': product[2],
+                'image': product[3]
+            })
 
-        products = [
-            {'name': 'Газонокосилка', 'price': '189000', 'description': 'Газонокосилка аккумуляторная самоходная Greenworks GC82LM51SP2 82 В - это мощная и практичная самоходная газонокосилка с приводом на задние колеса.', 'image': 'templates/product_grasschopper.png'},
-            {'name': 'Окно ПВХ', 'price': '5100','description': 'Фрамуга - это горизонтальная верхняя створка окна, монтируемая для безопасного проветривания помещения.','image': 'templates/product_window.png'},
-            {'name': 'Брус', 'price': '4490','description': 'При склейке используется водостойкий клей D4, что позволяет использование этого бруса в наружных работах.','image': 'templates/product_brus.png'},
-            # Добавьте больше товаров по необходимости
-        ]
-        return render_template('main.html', avatar_url=avatar_url, products=products)
+        return render_template('main.html', avatar_url=avatar_url, products=products_list)
 
 
 @app.route('/user/create', methods=['POST'])
@@ -228,6 +241,59 @@ def profile():
     else:
         flash("Войдите, пожалуйста, чтобы увидеть свой профиль.")
         return redirect(url_for("login"))
+
+
+@app.route('/add_to_cart/<int:product_id>', methods=['POST'])
+def add_to_cart(product_id):
+    if 'user_id' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    user_id = session['user_id']
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("INSERT INTO cart (user_id, product_id) VALUES (%s, %s)", (user_id, product_id))
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        cursor.close()
+        conn.close()
+
+
+@app.route('/cart')
+def cart():
+    if 'user_id' not in session:
+        return redirect('/login')  # Перенаправление на страницу входа
+
+    user_id = session['user_id']
+
+    # Получаем данные о продуктах из базы данных
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute('SELECT product_id FROM cart WHERE user_id = %s', (user_id, ))
+    cart_items = cur.fetchall()
+
+    products = []
+    for item in cart_items:
+        cur.execute('SELECT product_name, price, description, image, product_id FROM products WHERE product_id=%s', (item,))
+        product = cur.fetchone()
+        if product:
+            products.append({
+                'name': product[0],
+                'price': product[1],
+                'description': product[2],
+                'image': product[3],
+                'product_id': product[4]
+            })
+
+    conn.close()
+
+    return render_template('cart.html', products=products)
 
 
 @app.route('/edit-profile', methods=['GET'])
