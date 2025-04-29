@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация</title>
     <link rel="stylesheet" href="../css/login.css"> <!-- Подключаем стили -->
+    <style>
+        /* Стили для кнопки регистрации */
+        .register-button {
+            background-color: #4caf50; /* Зеленый цвет фона */
+            color: white; /* Белый цвет текста */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Закругленные углы */
+            cursor: pointer; /* Указатель при наведении */
+            transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+        }
+
+        .register-button:hover {
+            background-color: #45a049; /* Темнее зеленый при наведении */
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: white; /* Белый цвет текста "Нет аккаунта?" */
+        }
+
+        .register-link p {
+            margin-bottom: 10px; /* Небольшой отступ снизу от текста к кнопке */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -16,6 +42,20 @@
             <input type="password" id="password" name="password"><br><br>
             <button type="submit">Войти</button>
         </form>
+
+        <!-- Кнопка для перехода на страницу регистрации -->
+        <div class="register-link">
+            <p>Нет аккаунта?
+                <a href="/reg">
+                    <button class="register-button" type="button">Зарегистрироваться</button>
+                </a>
+            </p>
+        </div>
     </div>
+
+    <!-- Нижний колонтитул -->
+    <footer>
+        <p>&copy; 2025 Добрыня</p>
+    </footer>
 </body>
 </html>

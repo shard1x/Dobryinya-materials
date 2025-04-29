@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Корзина</title>
     <link rel="stylesheet" href="css/main.css">
+    <style>
+        .product-cards {
+            display: flex;
+            flex-wrap: wrap; /* Позволяет карточкам переноситься на следующую строку */
+            justify-content: flex-start; /* Выравнивание карточек по левому краю */
+            margin-top: 20px; /* Отступ сверху для отделения от заголовка */
+        }
+
+        .product-card {
+            flex: 0 1 calc(33.33% - 20px); /* Каждая карточка занимает треть ширины контейнера с учетом отступов */
+            margin: 10px; /* Отступы вокруг каждой карточки */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Добавляет тень к карточкам */
+            padding: 10px; /* Внутренние отступы для карточек */
+            border-radius: 5px; /* Закругленные углы */
+        }
+
+        .product-card img {
+            max-width: 100%; /* Ограничивает ширину изображения до ширины карточки */
+            height: auto; /* Сохраняет пропорции изображения */
+        }
+
+        .cart-header {
+            margin-bottom: 20px; /* Отступ снизу для отделения заголовка от товаров */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -19,7 +44,7 @@
                 </div>
             {% else %}
                 <div class="user-icon" onclick="togglePopup()">
-                    <img src="/templates/1616475211_2-p-nyashnie-kotyata-foto-koshka-2-730x730.png" alt="Иконка пользователя" width="40" height="40">
+                    <img src="/templates/user_avatar.png" alt="Иконка пользователя" width="40" height="40">
                 </div>
             {% endif %}
         </div>
@@ -39,12 +64,20 @@
     <main>
         <section class="cart-items">
             {% if products %}
-                <h2>Ваши товары в корзине:</h2>
-                <ul>
+                <div class="cart-header">
+                    <h2>Ваши товары в корзине:</h2>
+                </div>
+                <!-- Добавлен отступ сверху для секции с товарами -->
+                <section class="product-cards">
                     {% for product in products %}
-                        <li>{{ product.name }} - {{ product.price }} руб.</li> <!-- Отображение товаров в корзине -->
+                        <div class="product-card">
+                            <img src="{{ product.image }}" alt="{{ product.name }}">
+                            <h3>{{ product.name }}</h3>
+                            <p>Цена: {{ product.price }} руб.</p>
+                            <p>{{ product.description }}</p>
+                        </div>
                     {% endfor %}
-                </ul>
+                </section>
             {% else %}
                 <h2>Ваша корзина пуста.</h2> <!-- Сообщение, если корзина пуста -->
             {% endif %}
@@ -52,7 +85,12 @@
 
     </main>
 
+    <!-- Скрипты -->
     <script src="js/main.js"></script>
 
+    <!-- Нижний колонтитул -->
+    <footer>
+        <p>&copy; 2025 Добрыня</p>
+    </footer>
 </body>
 </html>

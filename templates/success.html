@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <title>Успешная регистрация</title>
     <link rel="stylesheet" href="../css/success.css">
+    <style>
+        /* Стили для кнопки "Войти" */
+        .login-button {
+            display: inline-block; /* Чтобы кнопка отображалась как блок */
+            background-color: #4caf50; /* Зеленый цвет фона */
+            color: white; /* Белый цвет текста */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Закругленные углы */
+            text-decoration: none; /* Убираем подчеркивание у ссылки */
+            text-align: center; /* Центрирование текста */
+            margin-top: 20px; /* Отступ сверху */
+        }
+
+        .login-button:hover {
+            background-color: #45a049; /* Темнее зеленый при наведении */
+        }
+
+        .content {
+            text-align: center; /* Центрирование содержимого внутри div */
+        }
+    </style>
 </head>
 <body>
     <div class="content">
         <h1>Поздравляем!</h1>
         <p>Ваш профиль успешно сохранён.</p>
-        <a href="/">Вернуться на главную страницу</a>
+        <a href="/login" class="login-button">Войти</a> <!-- Изменена надпись и ссылка -->
     </div>
+
+    <!-- Нижний колонтитул -->
+    <footer>
+        <p>&copy; 2025 Добрыня</p>
+    </footer>
 </body>
 </html>

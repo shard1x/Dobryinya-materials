@@ -2,65 +2,82 @@
 * {
     margin: 0;
     padding: 0;
-    background-color: #654321;
     box-sizing: border-box;
 }
 
-/* Контейнер для центрирования содержимого */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Высота контейнера = высоте видимой части экрана */
-    flex-direction: column; /* Расположение элементов вертикально */
-}
-
-/* Стилизация формы */
-.form-container {
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid #ccc; /* Добавляем рамку вокруг формы */
-}
-
-/* Добавьте этот стиль для изменения цвета текста "имя пользователя" и "пароль" на белый */
-label {
-    color: #ffffff; /* белый цвет */
-    font-size: 14px; /* размер шрифта */
-    margin-top: 15px; /* отступ сверху */
-}
-
-/* Заголовок */
+/* Добавьте этот стиль для изменения цвета текста "Регистрация" на белый */
 h1 {
-    font-size: 24px;
-    color: #ffff;
-    margin-bottom: 20px;
+    color: #ffffff; /* белый цвет */
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-/* Поля ввода */
-input[type="text"], input[type="password"] {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    border: 2px solid #ccc; /* Рамки для полей ввода */
-    border-radius: 25px; /* Округление углов полей ввода */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #654321;
+    display: flex;
+    flex-direction: column; /* Изменено на column для вертикального расположения */
+    min-height: 100vh; /* Устанавливаем минимальную высоту на 100% высоты экрана */
 }
 
-/* Кнопка */
-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
+.container {
+    width: 400px;
+    padding: 20px;
+    background-color: #013220;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto; /* Центрируем контейнер по горизонтали */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
     margin-top: 15px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    padding: 12px 20px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+input:focus {
+    border-color: #007bff;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px 20px;
+    margin-top: 20px;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    border-radius: 25px; /* Округление краев кнопки */
+    transition: background-color 0.2s ease-in-out;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
+}
+
+/* Нижний колонтитул */
+footer {
+     background-color:#251002 ;
+     color:white ;
+     text-align:center ;
+     padding :15px; /* Увеличиваем отступы для лучшего внешнего вида*/
+     margin-top:auto; /* Отодвигаем колонтитул вниз */
 }

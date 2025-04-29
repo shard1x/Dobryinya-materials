@@ -18,7 +18,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%;
+}
+
+main {
+ height: 100%;
 }
 
 .container {
@@ -71,4 +75,16 @@ button   {
 
 button:hover {
     background-color: #0056b3;
+}
+
+/* Нижний колонтитул */
+footer {
+     background-color:#251002 ;
+     color:white ;
+     text-align:center ;
+     padding :15 px ; /* Увеличиваем отступы для лучшего внешнего вида*/
+     position:absolute ; /* Изменяем позиционирование на абсолютное*/
+     bottom :-20 px ; /* Устанавливаем отрицательное значение для отступа снизу*/
+     left :0 ;
+     right :0 ;
 }

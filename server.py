@@ -56,54 +56,48 @@ def success():
 
 
 @app.route('/')
-def home(products=None):
+def home():
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Получаем данные о продуктах
+    cur.execute('SELECT product_name, price, description, image, product_id FROM products')
+    products = cur.fetchall()  # Получаем все продукты
+    print(products)
+
+    # Преобразуем данные о продуктах в словарь для удобства
+    products_list = []
+    for product in products:
+        products_list.append({
+            'name': product[0],
+            'price': product[1],
+            'description': product[2],
+            'image': product[3],
+            'product_id': product[4]
+        })
+
+    avatar_url = 'uploads/default_avatar.png'  # Значение по умолчанию
+
     if 'user_id' in session:
         session['logged_in'] = True
-        conn = get_db_connection()
-        cur = conn.cursor()
 
         # Получаем URL аватара пользователя
         print(f"Запрашиваемый ID: {session['user_id']}")  # Отладочная печать
         cur.execute('SELECT avatar_url FROM users WHERE user_id=%s', (session['user_id'],))
         user_data = cur.fetchone()
         print(f"Полученный результат: {user_data}")  # Отладочная печать
-        avatar_url = user_data[0] if user_data else 'uploads/default_avatar.png'
+        avatar_url = user_data[0] if user_data else avatar_url
 
-        # Получаем данные о продуктах
-        cur.execute('SELECT product_name, price, description, image, product_id FROM products')
-        products = cur.fetchall()  # Получаем все продукты
-
-        # Закрываем соединение с базой данных
+        # Закрываем соединение с базой данных после всех запросов
         conn.close()
-
-        # Преобразуем данные о продуктах в словарь для удобства
-        products_list = []
-        for product in products:
-            products_list.append({
-                'name': product[0],
-                'price': product[1],
-                'description': product[2],
-                'image': product[3],
-                'product_id': product[4]
-            })
-
-        return render_template('main.html', avatar_url=avatar_url, products=products_list)
 
     else:
         session['logged_in'] = False
-        avatar_url = 'uploads/default_avatar.png'
 
-        # Если пользователь не залогинен, можно вернуть пустой список продуктов или другие данные
-        products_list = []
-        for product in products:
-            products_list.append({
-                'name': product[0],
-                'price': product[1],
-                'description': product[2],
-                'image': product[3]
-            })
+        # Закрываем соединение с базой данных после всех запросов
+        conn.close()
 
-        return render_template('main.html', avatar_url=avatar_url, products=products_list)
+    return render_template('main.html', avatar_url=avatar_url, products=products_list)
 
 
 @app.route('/user/create', methods=['POST'])
@@ -266,24 +260,23 @@ def add_to_cart(product_id):
 
 @app.route('/cart')
 def cart():
-    if 'user_id' not in session:
-        return redirect('/login')  # Перенаправление на страницу входа
-
-    user_id = session['user_id']
-
-    # Получаем данные о продуктах из базы данных
     conn = get_db_connection()
     cur = conn.cursor()
 
-    cur.execute('SELECT product_id FROM cart WHERE user_id = %s', (user_id, ))
-    cart_items = cur.fetchall()
+    # Получаем ID пользователя из сессии
+    user_id = session.get('user_id')
+    products_list = []
 
-    products = []
-    for item in cart_items:
-        cur.execute('SELECT product_name, price, description, image, product_id FROM products WHERE product_id=%s', (item,))
-        product = cur.fetchone()
-        if product:
-            products.append({
+    if user_id:
+        # Получаем товары из корзины пользователя
+        cur.execute('SELECT p.product_name, p.price, p.description, p.image, p.product_id '
+                    'FROM cart c JOIN products p ON c.product_id = p.product_id '
+                    'WHERE c.user_id = %s', (user_id,))
+        products = cur.fetchall()
+
+        # Преобразуем данные о продуктах в словарь для удобства
+        for product in products:
+            products_list.append({
                 'name': product[0],
                 'price': product[1],
                 'description': product[2],
@@ -291,9 +284,20 @@ def cart():
                 'product_id': product[4]
             })
 
+    avatar_url = 'uploads/default_avatar.png'  # Значение по умолчанию
+
+    if user_id:
+        session['logged_in'] = True
+
+        # Получаем URL аватара пользователя
+        cur.execute('SELECT avatar_url FROM users WHERE user_id=%s', (user_id,))
+        user_data = cur.fetchone()
+        avatar_url = user_data[0] if user_data else avatar_url
+
+    # Закрываем соединение с базой данных
     conn.close()
 
-    return render_template('cart.html', products=products)
+    return render_template('cart.html', avatar_url=avatar_url, products=products_list)
 
 
 @app.route('/edit-profile', methods=['GET'])

@@ -4,7 +4,24 @@
     <meta charset="UTF-8">
     <title>Добрыня</title>
     <!-- Подключение CSS -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/reg.css">
+    <style>
+        /* Стили для кнопки авторизации */
+        .login-button {
+            background-color: #007bff; /* Синий цвет фона */
+            color: white; /* Белый цвет текста */
+            padding: 10px 20px; /* Отступы внутри кнопки */
+            border: none; /* Убираем рамку */
+            border-radius: 5px; /* Закругленные углы */
+            cursor: pointer; /* Указатель при наведении */
+            margin-top: 20px; /* Отступ сверху */
+            text-align: center; /* Центрирование текста */
+        }
+
+        .login-button:hover {
+            background-color: #0056b3; /* Темнее синий при наведении */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -21,6 +38,18 @@
 
             <button type="submit">Зарегистрироваться</button>
         </form>
+
+        <!-- Кнопка для перехода на страницу авторизации -->
+        <div style="text-align: center;">
+            <a href="/login">
+                <button class="login-button" type="button">Уже есть аккаунт? Войти</button>
+            </a>
+        </div>
     </div>
+
+    <!-- Нижний колонтитул -->
+    <footer>
+        <p>&copy; 2025 Добрыня</p>
+    </footer>
 </body>
 </html>
