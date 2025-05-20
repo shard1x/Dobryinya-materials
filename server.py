@@ -248,56 +248,77 @@ def add_to_cart(product_id):
     cursor = conn.cursor()
 
     try:
+        # Проверяем, есть ли товар уже в корзине
+        cursor.execute("SELECT * FROM cart WHERE user_id = %s AND product_id = %s", (user_id, product_id))
+        existing_item = cursor.fetchone()
+
+        if existing_item:
+            return jsonify({'error': 'Этот товар уже есть в вашей корзине.'}), 400
+
+        # Добавляем товар в корзину
         cursor.execute("INSERT INTO cart (user_id, product_id) VALUES (%s, %s)", (user_id, product_id))
         conn.commit()
+
         return jsonify({'success': True})
+
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     finally:
         cursor.close()
         conn.close()
 
 
-@app.route('/cart')
+@app.route('/cart', methods=['GET', 'POST'])
 def cart():
     conn = get_db_connection()
     cur = conn.cursor()
-
-    # Получаем ID пользователя из сессии
     user_id = session.get('user_id')
     products_list = []
+    total_price = 0
 
     if user_id:
+        if request.method == 'POST':
+            action = request.form.get('action')
+            product_id = request.form.get('product_id')
+
+            if action == 'remove':
+                cur.execute('DELETE FROM cart WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+            elif action == 'increase':
+                cur.execute('UPDATE cart SET quantity = quantity + 1 WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+            elif action == 'decrease':
+                cur.execute('UPDATE cart SET quantity = GREATEST(quantity - 1, 0) WHERE user_id=%s AND product_id=%s', (user_id, product_id))
+
+            conn.commit()
+
         # Получаем товары из корзины пользователя
-        cur.execute('SELECT p.product_name, p.price, p.description, p.image, p.product_id '
+        cur.execute('SELECT p.product_name, p.price, p.description, p.image, p.product_id, c.quantity '
                     'FROM cart c JOIN products p ON c.product_id = p.product_id '
                     'WHERE c.user_id = %s', (user_id,))
         products = cur.fetchall()
 
-        # Преобразуем данные о продуктах в словарь для удобства
         for product in products:
             products_list.append({
                 'name': product[0],
                 'price': product[1],
                 'description': product[2],
                 'image': product[3],
-                'product_id': product[4]
+                'product_id': product[4],
+                'quantity': product[5]
             })
+            total_price += product[1] * product[5]
 
     avatar_url = 'uploads/default_avatar.png'  # Значение по умолчанию
 
     if user_id:
         session['logged_in'] = True
-
-        # Получаем URL аватара пользователя
         cur.execute('SELECT avatar_url FROM users WHERE user_id=%s', (user_id,))
         user_data = cur.fetchone()
         avatar_url = user_data[0] if user_data else avatar_url
 
-    # Закрываем соединение с базой данных
     conn.close()
 
-    return render_template('cart.html', avatar_url=avatar_url, products=products_list)
+    return render_template('cart.html', avatar_url=avatar_url, products=products_list, total_price=total_price)
 
 
 @app.route('/edit-profile', methods=['GET'])

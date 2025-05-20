@@ -35,7 +35,10 @@
 <body>
     <div class="container">
         <h1>Авторизация</h1>
-        <form action="/login" method="post">
+{% if error_message %}
+    <p style="color: red; text-align: center;">{{ error_message }}</p>
+{% endif %}
+<form action="/login" method="post">
             <label for="user_name">Имя пользователя:</label><br>
             <input type="text" id="username" name="user_name"><br>
             <label for="password">Пароль:</label><br>

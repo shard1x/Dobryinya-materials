@@ -1,18 +1,21 @@
-/* Общая настройка шрифтов и цвета текста */
+/* Общие стили */
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    color: white; /* Изменено на белый цвет текста */
+    font-family: Arial, sans-serif; /* Изменено на Arial для соответствия main.css */
+    background-image: url('../templates/background_block.png'); /* Укажите правильный путь */
+    background-size: 50% auto; /* Ширина 100%, высота автоматически подстраивается по пропорциям */
     margin: 0;
-    padding: 0;
-    line-height: 1.139;
+    color: white; /* Цвет текста по умолчанию белый */
 }
 
-/* Шапка сайта */
+/* Шапка */
 header {
-    background-color: #013220;
-    color: white;
-    padding: 1rem;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-image: url('../templates/header_background_minecraft.png'); /* Укажите правильный путь */
+    background-size: 50% auto; /* Ширина 100%, высота автоматически подстраивается по пропорциям */
+    background-position: center;
 }
 
 header nav {
@@ -42,8 +45,7 @@ header nav a:hover {
 
 /* Профиль пользователя */
 .profile-container {
-    background-color: #654321; /* Цвет фона профиля остается прежним */
-    padding: 110px;
+    padding: 116px;
     border-radius: 0px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -74,22 +76,22 @@ header nav a:hover {
 }
 
 .info button:hover {
-    background-color: #3e8e41; /* Цвет кнопки при наведении */
+   background-color:#3e8e41; /* Цвет кнопки при наведении */
 }
 
 /* Гостевое сообщение */
 .guest-message {
-    text-align: center;
-    padding: 20px;
-    background-color: #333; /* Изменен цвет фона на темный для контраста с белым текстом */
-    border-radius: 8px;
+   text-align:center ;
+   padding :20 px ;
+   background-color :#333 ; /* Изменен цвет фона на темный для контраста с белым текстом */
+   border-radius :8 px ;
 }
 
 .guest-message a {
-   display:inline-block;
+   display:inline-block ;
    padding :10 px ;
    background-color :#4caf50 ;
-   color:white ;
+   color:white ; /* Цвет ссылок остается белым */
    text-decoration:none ;
    border-radius :5 px ;
    margin-top :10 px ;
@@ -109,7 +111,7 @@ header nav a:hover {
 
 .alert.success {
    background-color :#4caf50 ;
-   color:white ;
+   color:white ; /* Цвет текста сообщения остается белым */
    padding :10 px ;
    border-radius :5 px ;
    text-align:center ;
@@ -117,7 +119,7 @@ header nav a:hover {
 
 .alert.danger {
    background-color :#ff5722 ;
-   color:white ;
+   color:white ; /* Цвет текста сообщения остается белым */
    padding :10 px ;
    border-radius :5 px ;
    text-align:center ;
@@ -125,7 +127,7 @@ header nav a:hover {
 
 .alert.warning {
    background-color :#ffeb3b ;
-   color:black ;
+   color:black ; /* Оставляем черным для контраста с желтым фоном */
    padding :10 px ;
    border-radius :5 px ;
    text-align:center ;
@@ -134,11 +136,11 @@ header nav a:hover {
 /* Нижний колонтитул */
 footer {
      background-color:#251002 ;
-     color:white ;
+     color:white ; /* Цвет текста колонтитула остается белым */
      text-align:center ;
-     padding :15 px ; /* Увеличиваем отступы для лучшего внешнего вида*/
-     position:absolute ; /* Изменяем позиционирование на абсолютное*/
-     bottom :0 px ; /* Устанавливаем отрицательное значение для отступа снизу*/
+     padding :15 px ;
+     position:absolute ;
+     bottom :0 px ;
      left :0 ;
      right :0 ;
 }

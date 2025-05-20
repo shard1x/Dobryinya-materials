@@ -1,7 +1,8 @@
 /* Общие стили */
 body {
     font-family: Arial, sans-serif;
-    background-color: #654321;
+    background-image: url('../templates/background_block.png'); /* Укажите правильный путь */
+    background-size: 50% auto; /* Ширина 100%, высота автоматически подстраивается по пропорциям */
     margin: 0;
 }
 
@@ -11,8 +12,10 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
-    background-color: #013220;
-    color: white;
+    background-image: url('../templates/header_background_minecraft.png'); /* Укажите правильный путь */
+    background-size: 50% auto; /* Ширина 100%, высота автоматически подстраивается по пропорциям */
+    background-position: center;
+    color: white; /* Исправлено */
 }
 
 /* Логотип */
@@ -30,6 +33,18 @@ header {
 h1 {
     font-size: 24px;
     margin: 0;
+}
+
+.cart-title {
+    background-color: white; /* Белый фон */
+    color: black; /* Цвет текста */
+    padding: 15px; /* Внутренние отступы */
+    text-align: center; /* Выравнивание текста по центру */
+    border-radius: 10px; /* Закругленные углы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Тень для плашки */
+    margin-bottom: 20px; /* Отступ снизу для отделения от других элементов */
+    font-size: 24px; /* Увеличение размера шрифта */
+    font-weight: bold; /* Жирный текст */
 }
 
 /* Контейнер для иконки пользователя */
@@ -86,7 +101,7 @@ main section {
 	margin-left:auto;
 	margin-right:auto;
 	padding :20px;
-	background-color:white;
+	background-color:white; /* Фон основной секции остается белым для контраста с фоном страницы */
 	border-radius :10px;
 	box-shadow :0 2px 5px rgba(0,0,0,.1);
 }
@@ -104,7 +119,7 @@ main h2 {
 }
 
 .product-card {
-	background-color:#FFE4C4;
+	background-color:#FFE4C4; /* Цвет карточек товаров */
 	border-radius :10px;
 	box-shadow :0 2px 5px rgba(0,0,0,.2);
 	margin :15px;
@@ -146,7 +161,7 @@ main h2 {
 
 /* Нижний колонтитул */
 footer {
-     background-color:#251002 ;
+     background-color:#251002 ; /* Цвет нижнего колонтитула */
      color:white ;
      text-align:center ;
      padding :15 px ; /* Увеличиваем отступы для лучшего внешнего вида*/
